@@ -1,4 +1,4 @@
-# @oglofus/event-manager
+# @oglofus/event-manager [![Publish Package to NPM](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml/badge.svg)](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml)
 
 A lightweight, strongly-typed event management library for TypeScript and JavaScript. It provides:
 
