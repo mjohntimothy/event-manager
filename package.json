@@ -1,0 +1,48 @@
+{
+  "name": "@oglofus/event-manager",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oglofus/event-manager.git"
+  },
+  "description": "A lightweight, strongly-typed event management library for TypeScript and JavaScript.",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "node": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/oglofus/event-manager/issues"
+  },
+  "homepage": "https://github.com/oglofus/event-manager#readme",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "event-manager",
+    "events",
+    "event-emitter",
+    "event-handling",
+    "typescript",
+    "javascript",
+    "type-safe",
+    "strongly-typed",
+    "lightweight",
+    "event-driven",
+    "pub-sub",
+    "observer-pattern"
+  ],
+  "author": "oglofus <> (https://oglofus.com/)",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  }
+}
