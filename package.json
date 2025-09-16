@@ -1,26 +1,38 @@
 {
   "name": "@oglofus/event-manager",
   "version": "0.0.1",
+  "description": "A lightweight, strongly-typed event management library for TypeScript and JavaScript.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo 'No tests' && exit 0",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oglofus/event-manager.git"
-  },
-  "description": "A lightweight, strongly-typed event management library for TypeScript and JavaScript.",
-  "main": "dist/index.js",
-  "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "node": "./src/index.ts",
-      "default": "./src/index.ts"
-    }
   },
   "bugs": {
     "url": "https://github.com/oglofus/event-manager/issues"
   },
   "homepage": "https://github.com/oglofus/event-manager#readme",
-  "scripts": {
-    "build": "tsc"
-  },
   "keywords": [
     "event-manager",
     "events",
@@ -37,12 +49,8 @@
   ],
   "author": "oglofus <> (https://oglofus.com/)",
   "license": "ISC",
-  "type": "module",
+  "private": false,
   "devDependencies": {
     "typescript": "^5.9.2"
-  },
-  "private": false,
-  "publishConfig": {
-    "access": "public"
   }
 }
