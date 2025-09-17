@@ -1,6 +1,6 @@
 {
   "name": "@oglofus/event-manager",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight, strongly-typed event management library for TypeScript and JavaScript.",
   "type": "module",
   "main": "dist/index.js",

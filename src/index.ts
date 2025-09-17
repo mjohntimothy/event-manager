@@ -136,13 +136,13 @@ export class EventManager {
      *
      * This map is used to register and organize event handlers according to the events they are associated with.
      */
-    private listeners: Map<string, EventHandlerMetadata<any>[]> = new Map();
+    protected listeners: Map<string, EventHandlerMetadata<any>[]> = new Map();
     /**
      * A numeric variable used to count the number of handlers.
      * This counter is typically incremented or decremented
      * to track the active or total number of handlers in a system.
      */
-    private handlerCounter: number = 0;
+    protected handlerCounter: number = 0;
 
     /**
      * Registers an event handler for a specific event type.
