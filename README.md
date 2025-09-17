@@ -1,5 +1,4 @@
-# @oglofus/event-manager [![Publish Package to NPM](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml/badge.svg)](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml)
-
+# @oglofus/event-manager [![NPM Version](https://img.shields.io/npm/v/%40oglofus%2Fevent-manager)](https://www.npmjs.com/package/@oglofus/event-manager) [![Publish Package to NPM](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml/badge.svg)](https://github.com/oglofus/event-manager/actions/workflows/release-package.yml)
 A lightweight, strongly-typed event management library for TypeScript and JavaScript. It provides:
 
 - Simple Event and CancellableEvent base classes
