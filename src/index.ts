@@ -121,20 +121,17 @@ export abstract class CancellableEvent extends Event {
     }
 }
 
-/**
- * Manages the registration, unregistration, and execution of event handlers.
- * Provides mechanisms to prioritize handlers, retrieve handler information,
- * and trigger events to execute associated handlers in order of priority.
- */
-export class EventManager {
+export abstract class RawEventManager {
     /**
      * A map that holds event listeners grouped by their event names.
      *
      * @type {Map<string, EventHandlerMetadata<any>[]>}
      * - The key represents the event name as a string.
-     * - The value is an array of `EventHandlerMetadata` objects, which hold metadata about event handler functions.
+     * - The value is an array of `EventHandlerMetadata` objects, which hold metadata about event
+     *     handler functions.
      *
-     * This map is used to register and organize event handlers according to the events they are associated with.
+     * This map is used to register and organize event handlers according to the events they are
+     *     associated with.
      */
     protected listeners: Map<string, EventHandlerMetadata<any>[]> = new Map();
     /**
@@ -143,34 +140,6 @@ export class EventManager {
      * to track the active or total number of handlers in a system.
      */
     protected handlerCounter: number = 0;
-
-    /**
-     * Registers an event handler for a specific event type.
-     *
-     * @param {new (...args: any[]) => T} eventClass - The class of the event to listen for.
-     * @param {(event: T) => Promise<void> | void} handler - The function that will be executed when the event is triggered.
-     * @param {EventPriority} [priority=EventPriority.NORMAL] - The priority of the event handler. Handlers with higher priority are executed earlier.
-     * @return {string} The unique ID of the registered handler.
-     */
-    public register<T extends Event>(
-        eventClass: new (...args: any[]) => T,
-        handler: (event: T) => Promise<void> | void,
-        priority: EventPriority = EventPriority.NORMAL
-    ): string {
-        const eventName = eventClass.name;
-
-        if (!this.listeners.has(eventName)) {
-            this.listeners.set(eventName, []);
-        }
-
-        const handlerId = `handler_${++this.handlerCounter}`;
-        const handlers = this.listeners.get(eventName)!;
-
-        handlers.push({ handler, priority, id: handlerId });
-        handlers.sort((a, b) => a.priority - b.priority);
-
-        return handlerId;
-    }
 
     /**
      * Unregisters a handler by its unique identifier.
@@ -199,32 +168,41 @@ export class EventManager {
         return removed;
     }
 
-    /**
-     * Unregisters all listeners associated with a specific event class or all listeners if no event class is provided.
-     *
-     * @param {Function} [eventClass] - The class of the event whose listeners need to be unregistered. If omitted, all listeners will be cleared.
-     * @return {void} - Does not return a value.
-     */
-    public unregisterAll<T extends Event>(eventClass?: new (...args: any[]) => T): void {
-        if (eventClass) {
-            this.listeners.delete(eventClass.name);
+    protected _register<T extends Event>(
+        eventName: string,
+        handler: (event: T) => Promise<void> | void,
+        priority: EventPriority = EventPriority.NORMAL
+    ): string {
+        if (!this.listeners.has(eventName)) {
+            this.listeners.set(eventName, []);
+        }
+
+        const handlerId = `handler_${++this.handlerCounter}`;
+        const handlers = this.listeners.get(eventName)!;
+
+        handlers.push({
+            handler,
+            priority,
+            id: handlerId
+        });
+        handlers.sort((a, b) => a.priority - b.priority);
+
+        return handlerId;
+    }
+
+    protected _unregisterAll(eventName?: string): void {
+        if (eventName) {
+            this.listeners.delete(eventName);
         } else {
             this.listeners.clear();
         }
     }
 
-    /**
-     * Unregisters all event handlers of a specific priority for the given event class.
-     *
-     * @param eventClass - The event class for which the handlers should be unregistered.
-     * @param priority - The priority level of the handlers to be removed.
-     * @return void
-     */
-    public unregisterByPriority<T extends Event>(
-        eventClass: new (...args: any[]) => T,
-        priority: EventPriority
-    ): void {
-        const eventName = eventClass.name;
+    protected _getHandlerIds(eventName: string): string[] {
+        return this.listeners.get(eventName)?.map((h) => h.id) || [];
+    }
+
+    protected _unregisterByPriority(eventName: string, priority: EventPriority): void {
         const handlers = this.listeners.get(eventName);
 
         if (handlers) {
@@ -238,56 +216,20 @@ export class EventManager {
         }
     }
 
-    /**
-     * Retrieves a list of handler IDs associated with a specific event class.
-     *
-     * @param eventClass The class of the event for which to retrieve handler IDs.
-     * @return An array of handler IDs associated with the given event class. Returns an empty array if no handlers are found.
-     */
-    public getHandlerIds<T extends Event>(eventClass: new (...args: any[]) => T): string[] {
-        const eventName = eventClass.name;
-
-        return this.listeners.get(eventName)?.map((h) => h.id) || [];
-    }
-
-    /**
-     * Checks if there are any handlers registered for a given event type.
-     *
-     * @param eventClass The class of the event for which handlers are being checked.
-     * @return `true` if there are one or more handlers registered for the specified event type, otherwise `false`.
-     */
-    public hasHandlers<T extends Event>(eventClass: new (...args: any[]) => T): boolean {
-        const eventName = eventClass.name;
-
+    protected _hasHandlers(eventName: string): boolean {
         return this.listeners.has(eventName) && this.listeners.get(eventName)!.length > 0;
     }
 
-    /**
-     * Retrieves the count of registered handlers for a specific event class.
-     *
-     * @param eventClass The class of the event for which the handler count is required.
-     * @return The number of registered handlers for the specified event class.
-     */
-    public getHandlerCount<T extends Event>(eventClass: new (...args: any[]) => T): number {
-        const eventName = eventClass.name;
-
+    protected _getHandlerCount(eventName: string): number {
         return this.listeners.get(eventName)?.length || 0;
     }
 
-    /**
-     * Emits an event to all registered listeners for the event type. Handlers are executed
-     * in the order of their priority, and execution stops if the event is cancellable and marked as cancelled.
-     *
-     * @param {T} event The event object to be emitted. The event must extend the base `Event` class.
-     * @return {Promise<EventResult<T>>} A promise that resolves with the result of the event emission,
-     * including details on the number of handlers executed, execution time, and handler execution details.
-     */
-    public async emit<T extends Event>(event: T): Promise<EventResult<T>> {
+    protected async _emit<T extends Event>(eventName: string, event: T): Promise<EventResult<T>> {
         const startTime = performance.now();
-        const eventName = event.constructor.name;
-        const handlers = [...(this.listeners.get(eventName) || [])].sort(
-            (a, b) => a.priority - b.priority
-        );
+        const handlers = [...(this.listeners.get(eventName) || [])].sort((
+            a,
+            b
+        ) => a.priority - b.priority);
 
         let executedHandlers = 0;
 
@@ -297,7 +239,12 @@ export class EventManager {
             executionTime?: number;
         }> = [];
 
-        for (const { handler, priority, id } of handlers) {
+        for (const {
+            handler,
+            priority,
+            id
+        } of handlers)
+        {
             if (event instanceof CancellableEvent && event.isCancelled()) {
                 break;
             }
@@ -321,5 +268,103 @@ export class EventManager {
             executionTime: performance.now() - startTime,
             executedHandlers: executionDetails
         };
+    }
+}
+
+/**
+ * Manages the registration, unregistration, and execution of event handlers.
+ * Provides mechanisms to prioritize handlers, retrieve handler information,
+ * and trigger events to execute associated handlers in order of priority.
+ */
+export class EventManager extends RawEventManager {
+    /**
+     * Registers an event handler for a specific event type.
+     *
+     * @param {new (...args: any[]) => T} eventClass - The class of the event to listen for.
+     * @param {(event: T) => Promise<void> | void} handler - The function that will be executed
+     *     when the event is triggered.
+     * @param {EventPriority} [priority=EventPriority.NORMAL] - The priority of the event handler.
+     *     Handlers with higher priority are executed earlier.
+     * @return {string} The unique ID of the registered handler.
+     */
+    public register<T extends Event>(
+        eventClass: new (...args: any[]) => T,
+        handler: (event: T) => Promise<void> | void,
+        priority: EventPriority = EventPriority.NORMAL
+    ): string {
+        return this._register(eventClass.name, handler, priority);
+    }
+
+    /**
+     * Unregisters all listeners associated with a specific event class or all listeners if no
+     * event class is provided.
+     *
+     * @param {Function} [eventClass] - The class of the event whose listeners need to be
+     *     unregistered. If omitted, all listeners will be cleared.
+     * @return {void} - Does not return a value.
+     */
+    public unregisterAll<T extends Event>(eventClass?: new (...args: any[]) => T): void {
+        this._unregisterAll(eventClass ? eventClass.name : undefined);
+    }
+
+    /**
+     * Unregisters all event handlers of a specific priority for the given event class.
+     *
+     * @param eventClass - The event class for which the handlers should be unregistered.
+     * @param priority - The priority level of the handlers to be removed.
+     * @return void
+     */
+    public unregisterByPriority<T extends Event>(
+        eventClass: new (...args: any[]) => T,
+        priority: EventPriority
+    ): void {
+        this._unregisterByPriority(eventClass.name, priority);
+    }
+
+    /**
+     * Retrieves a list of handler IDs associated with a specific event class.
+     *
+     * @param eventClass The class of the event for which to retrieve handler IDs.
+     * @return An array of handler IDs associated with the given event class. Returns an empty
+     *     array if no handlers are found.
+     */
+    public getHandlerIds<T extends Event>(eventClass: new (...args: any[]) => T): string[] {
+        return this._getHandlerIds(eventClass.name)
+    }
+
+    /**
+     * Checks if there are any handlers registered for a given event type.
+     *
+     * @param eventClass The class of the event for which handlers are being checked.
+     * @return `true` if there are one or more handlers registered for the specified event type,
+     *     otherwise `false`.
+     */
+    public hasHandlers<T extends Event>(eventClass: new (...args: any[]) => T): boolean {
+        return this._hasHandlers(eventClass.name);
+    }
+
+    /**
+     * Retrieves the count of registered handlers for a specific event class.
+     *
+     * @param eventClass The class of the event for which the handler count is required.
+     * @return The number of registered handlers for the specified event class.
+     */
+    public getHandlerCount<T extends Event>(eventClass: new (...args: any[]) => T): number {
+        return this._getHandlerCount(eventClass.name);
+    }
+
+    /**
+     * Emits an event to all registered listeners for the event type. Handlers are executed
+     * in the order of their priority, and execution stops if the event is cancellable and marked
+     * as cancelled.
+     *
+     * @param {T} event The event object to be emitted. The event must extend the base `Event`
+     *     class.
+     * @return {Promise<EventResult<T>>} A promise that resolves with the result of the event
+     *     emission, including details on the number of handlers executed, execution time, and
+     *     handler execution details.
+     */
+    public async emit<T extends Event>(event: T): Promise<EventResult<T>> {
+        return this._emit(event.constructor.name, event);
     }
 }
